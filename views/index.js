@@ -70,3 +70,34 @@ parentContainer.addEventListener('click',(e)=>{
     }
 })
 
+window.addEventListener('DOMContentLoaded',()=>{
+    axios.get('http://localhost:3000/products').then((response)=>{
+        console.log(response.data);
+            if(response.request.status===200){
+            for(var i=0;i<response.data.products.length;i++){
+                showProductsOnScreen(response.data.products[i]);
+            }
+        } else{
+            console.log("Get is not working");
+        }
+    })      
+})
+
+function showProductsOnScreen(response){
+        
+        let parentNode=document.getElementById('music');
+        let childNode=
+        `<div id="music-content">
+        <div id='${response.description}'>
+        <h3>${response.title}</h3>
+        <div class="image-container">
+            <img class="prod-images" src='${response.imageUrl}' alt="">
+        </div>
+        <div class="prod-details">
+            <span>$<span>${response.price}</span></span>
+            <button class="shop-item-button" type='button'>ADD TO CART</button>
+        </div>
+        </div></div>`
+        parentNode.innerHTML=parentNode.innerHTML+childNode;
+       
+}
