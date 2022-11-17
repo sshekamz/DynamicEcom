@@ -95,9 +95,31 @@ function showProductsOnScreen(response){
         </div>
         <div class="prod-details">
             <span>$<span>${response.price}</span></span>
-            <button class="shop-item-button" type='button'>ADD TO CART</button>
+            <button onClick='addToCart(${response.id})'class="shop-item-button" type='button'>ADD TO CART</button>
         </div>
         </div></div>`
         parentNode.innerHTML=parentNode.innerHTML+childNode;
        
+}
+function addToCart(productId){
+    axios.post('http://localhost:3000/cart',{productId:productId})
+    .then(response=>{
+        console.log(response);
+        if(response.statu===200){
+            showNotification(response.data.message)
+        }
+    })
+    .catch(err=>{
+        console.log(err);
+    })
+}
+function showNotification(message){
+    const container = document.getElementById('container');
+        const notification = document.createElement('div');
+        notification.classList.add('notification');
+        notification.innerHTML = `<h4>${response.message}<h4>`;
+        container.appendChild(notification);
+        setTimeout(()=>{
+            notification.remove();
+        },2500)
 }
